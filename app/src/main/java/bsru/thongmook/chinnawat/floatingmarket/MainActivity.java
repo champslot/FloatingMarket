@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
     private Button signInButton, signUpButton, skipButton;
     private EditText userEditText, passEditText;
     private String  userString, passString;
+    private static final String urlPHP = "http://swiftcodingthai.com/bsru/get_user_champ.php";
+
 
 
     @Override
@@ -35,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MenuActivity.class));
+            }
+        });
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,15 +54,29 @@ public class MainActivity extends AppCompatActivity {
                     MyAlert myAlert = new MyAlert(MainActivity.this);
                     myAlert.myDialog("มีช่องว่าง", "กรุณากรอกช่องว่าง");
                 } else {
+                    // no space
+                    checkUserPass();
 
                 }
 
             }
         });
 
-
-
     } // main method
+
+    private void checkUserPass() {
+
+        try {
+
+            GetUser getUser = new GetUser(MainActivity.this);
+            getUser.execute(urlPHP);
+            String strJSON =
+
+        }
+
+
+
+    }
 
 
 

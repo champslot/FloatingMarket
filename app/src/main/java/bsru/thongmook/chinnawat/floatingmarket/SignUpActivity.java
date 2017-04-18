@@ -19,7 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String nameString, userString, passString, emailString;
     private Uri uri;
     private boolean aBoolean = true;
-    private int anInt = 0;
+
 
 
     @Override
@@ -42,10 +42,11 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //get value form edittext
-                emailString = emailEditText.getText().toString().trim();
                 nameString = nameEditText.getText().toString().trim();
                 userString = userEditText.getText().toString().trim();
                 passString = passEditText.getText().toString().trim();
+                emailString = emailEditText.getText().toString().trim();
+
 
                 //check space
                 if (emailString.equals("") || nameString.equals("") || userString.equals("") || passString.equals("")) {
@@ -54,12 +55,14 @@ public class SignUpActivity extends AppCompatActivity {
                     myAlert.myDialog("กรูณากรอก", "กรุณากรอกช่องว่าให้ครบ");
                 }else {
                     // false not have spave
-                    uploadValueToServer();
+                   uploadValueToServer();
                 }
 
             }   //onclick
         });
     }   //buttoncontroller
+
+
 
     private void uploadValueToServer() {
 
@@ -84,10 +87,18 @@ public class SignUpActivity extends AppCompatActivity {
             Log.d(tag, "email ==> " + emailString);
 
 
-            AddValueToUser addValueToUser = new AddValueToUser(SignUpActivity.this,
-                    nameString, userString, passString, emailString,
-                    Integer.toString(anInt));
-            addValueToUser.execute()
+           AddValueToUser addValueToUser = new AddValueToUser(SignUpActivity.this,
+                    nameString, userString, passString, emailString);
+            addValueToUser.execute("http://champslot.hol.es/get_user.php");
+            String s = addValueToUser.get();
+            Log.d(tag, "Result ==> " + s);
+
+            if (Boolean.parseBoolean(s)) {
+                finish();
+            } else {
+                MyAlert myAlert = new MyAlert(SignUpActivity.this);
+                myAlert.myDialog("Cannot Upload", "Upload Faild");
+            }
 
 
 
@@ -106,4 +117,4 @@ public class SignUpActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button4);
 
     }
-}   // main class
+}   //main class
